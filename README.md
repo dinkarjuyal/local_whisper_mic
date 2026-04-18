@@ -44,6 +44,24 @@ source "$REPO/.venv/bin/activate" && python "$REPO/transcribe_mic.py"
 
 Grant **Microphone** to Terminal or Shortcuts when prompted. For live scrolling output, run from Terminal; Shortcuts may only surface output when the shortcut finishes.
 
+## Publish to GitHub
+
+From this directory after [installing `gh`](https://cli.github.com/):
+
+```bash
+gh auth login
+gh repo create local-whisper-mic --public --source=. --remote=origin --push
+```
+
+If the repo already exists on GitHub as an empty project:
+
+```bash
+git remote add origin https://github.com/<you>/local-whisper-mic.git
+git push -u origin main
+```
+
+Then replace `<repository-url>` in the setup section above with your clone URL.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
