@@ -75,11 +75,13 @@ LOCAL_WHISPER_MIC_MODEL=tiny transcribe-mic --print-config
 | `--model tiny` | Fastest / smallest download |
 | `--chunk-seconds 1.5` | Shorter windows = snappier, noisier |
 
-Stop with **Ctrl+C**. Grant **microphone** permission to Terminal, your IDE, or Shortcuts when prompted.
+Stop with **Ctrl+C**. Grant **Microphone** to the app that runs the script (Terminal, **Shortcuts**, or the **Automator**/`bash` helper shown in the privacy prompt).
 
-## macOS Shortcuts
+## Keyboard shortcut
 
-Use absolute paths so the shortcut does not depend on your current directory:
+Use **absolute paths** in every method below so it works no matter which app is focused.
+
+Pick your Python entrypoint once and paste it into the script (examples use a venv; adjust if you use `pip install` + `transcribe-mic` on `PATH`):
 
 ```bash
 PYTHON="$HOME/path/to/local-whisper-mic/.venv/bin/python"
@@ -87,7 +89,56 @@ SCRIPT="$HOME/path/to/local-whisper-mic/transcribe_mic.py"
 "$PYTHON" "$SCRIPT"
 ```
 
-After `pip install`, you can instead run `transcribe-mic` if its directory is on `PATH` inside the shortcut environment.
+If `transcribe-mic` is on `PATH` inside the runner’s environment:
+
+```bash
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+transcribe-mic
+```
+
+### macOS — Shortcuts (menu bar / Siri, not always a global key)
+
+1. Open **Shortcuts** → **+** → add **Run Shell Script**.
+2. Shell **/bin/zsh**, pass input **to stdin** or **as arguments** (either is fine if the script body is only the lines above).
+3. Paste the three-line `PYTHON` / `SCRIPT` block (or the `transcribe-mic` block).
+4. Name the shortcut (e.g. **Local dictation**).
+5. Shortcut **…** or **ⓘ** → enable **Pin in Menu Bar** (or **Show in Share Sheet** if you prefer). Run it from the menu bar when you need dictation.
+
+Stock macOS does **not** assign an arbitrary global hotkey to every Shortcut reliably; for a **system-wide keyboard shortcut**, use Automator below or a launcher (Raycast, Alfred) with a hotkey.
+
+### macOS — Automator Quick Action + real keyboard shortcut (recommended for a hotkey)
+
+1. Open **Automator** → **New** → **Quick Action**.
+2. **Workflow receives** → **no input**; **in** → **any application**.
+3. Add **Run Shell Script**; shell **/bin/zsh**; pass input **as arguments**.
+4. Paste the same command block (`PYTHON`/`SCRIPT` or `transcribe-mic`).
+5. **File → Save** (e.g. **Local Whisper dictation**).
+6. Open **System Settings → Keyboard → Keyboard Shortcuts → Services** (or **Shortcuts** / **Quick Actions**, depending on macOS version).
+7. Find your Quick Action (often under **General** or **Text**), click the **none** column, and press your desired key combination (e.g. **⌃⌥D**).
+
+The first run may prompt for **Microphone** for the small helper that runs your shell script.
+
+### macOS — open a Terminal tab instead (good for scrolling transcript)
+
+Use **Run AppleScript** in Shortcuts or Automator:
+
+```applescript
+tell application "Terminal"
+    do script "cd /path/to/local-whisper-mic && source .venv/bin/activate && python3 transcribe_mic.py"
+end tell
+```
+
+Assign a shortcut the same way (Automator Quick Action, or Shortcuts pinned to menu bar). Stop dictation with **Ctrl+C** in that tab.
+
+### Linux (GNOME example)
+
+**Settings → Keyboard → Keyboard Shortcuts → Custom Shortcuts** → add a command such as:
+
+```bash
+/home/you/path/to/local-whisper-mic/.venv/bin/python /home/you/path/to/local-whisper-mic/transcribe_mic.py
+```
+
+Bind a key; allow the terminal or wrapper app microphone access if prompted.
 
 ## Publish to GitHub
 
