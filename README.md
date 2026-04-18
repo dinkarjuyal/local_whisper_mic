@@ -4,6 +4,8 @@ Local **speech-to-text** from your microphone using [faster-whisper](https://git
 
 Works on **macOS** and **Linux** (Windows: install PortAudio + Python deps manually).
 
+**Repository:** [github.com/dinkarjuyal/local_whisper_mic](https://github.com/dinkarjuyal/local_whisper_mic)
+
 ## Quick start
 
 **Option A — virtualenv in the repo**
@@ -14,8 +16,8 @@ brew install portaudio
 # Debian/Ubuntu
 # sudo apt install portaudio19-dev python3-venv
 
-git clone <repository-url>
-cd local-whisper-mic
+git clone https://github.com/dinkarjuyal/local_whisper_mic.git
+cd local_whisper_mic
 python3 -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
@@ -26,8 +28,8 @@ python transcribe_mic.py
 **Option B — install on PATH (any clone location)**
 
 ```bash
-pip install /path/to/local-whisper-mic
-# or from repo root:
+pip install "git+https://github.com/dinkarjuyal/local_whisper_mic.git"
+# or clone first, then from repo root:
 pip install .
 transcribe-mic --list-devices
 transcribe-mic
@@ -144,13 +146,14 @@ Bind a key; allow the terminal or wrapper app microphone access if prompted.
 
 ```bash
 gh auth login
-gh repo create local-whisper-mic --public --source=. --remote=origin --push
+gh repo create local_whisper_mic --public --source=. --remote=origin --push
 ```
 
-Empty repo on GitHub:
+If the GitHub repo already exists (empty), point `origin` at it and push:
 
 ```bash
-git remote add origin https://github.com/<you>/local-whisper-mic.git
+git remote add origin https://github.com/dinkarjuyal/local_whisper_mic.git
+# or: git remote add origin git@github.com:dinkarjuyal/local_whisper_mic.git
 git push -u origin main
 ```
 
