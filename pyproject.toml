@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-whisper-mic"
+version = "0.1.0"
+description = "Local microphone speech-to-text with faster-whisper"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+  "faster-whisper>=1.0.0",
+  "sounddevice>=0.4.6",
+  "numpy>=1.24.0",
+]
+
+[project.scripts]
+transcribe-mic = "transcribe_mic:main"
+
+[tool.setuptools]
+py-modules = ["transcribe_mic"]
